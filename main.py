@@ -1,7 +1,12 @@
+import os
+
 import requests
 from flask import Flask
 from flask_cors import CORS
 from flask import request , jsonify
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -12,7 +17,7 @@ prev_state = []
 @app.route('/numbers/<string:num_id>' ,methods=["GET"])
 def numbers(num_id):
     global curr_state , prev_state
-    resp = requests.post("http://20.244.56.144/evaluation-service/auth" ,json={"email": "aswinraj040@gmail.com","name": "aswin r","rollNo": "211722148007","accessCode": "pTTqxm","clientID": "6cd7b759-2ded-4164-b224-61b8ca23a4df","clientSecret": "wCMnnRChMARqcyqG"})
+    resp = requests.post("http://20.244.56.144/evaluation-service/auth" ,json={"email": f"{os.getenv('email')}","name": f"{os.getenv('name')}","rollNo": f"{os.getenv('rollNo')}","accessCode": f"{os.getenv('accessCode')}","clientID": f"{os.getenv('clientID')}","clientSecret": f"{os.getenv('clientSecret')}"})
     token = resp.json()['access_token']
     window_size = 10
     numbers = []
